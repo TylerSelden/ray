@@ -6,28 +6,35 @@ let a = 45;
 let r = 8;
 let s = 2;
 
+let dX = 0;
+let dY = 0;
+
 function turn(d) {
   a += d;
-  while (d < 0) d += 360;
-  while (d > 360) d -= 360;
+  while (a < 0) a += 360;
+  while (a > 360) a -= 360;
 }
-let move = {
-  foreward: function(d) {
-    x += d * Maths.cos(a);
-    y += d * Maths.sin(a);
+
+function move(d) {
+  
+
+  dX = 0;
+  dY = 0;
+}
+
+let go = {
+  forward: function() {
+    dY += 2;
   },
-  backward: function(d) {
-    x -= Maths.vecX(0, a, d);
-    y -= Maths.vecY(0, a, d);
+  right: function() {
+    dX += 2;
   },
-  left: function(d) {
-    x += d * Maths.sin(a);
-    y += d * Maths.cos(a);
+  backward: function() {
+    dY -= 2;
   },
-  right: function(d) {
-    x -= d * Maths.sin(a);
-    x -= d * Maths.cos(a);
+  left: function() {
+    dX -= 2;
   }
 }
 
-export { x, y, a, r, s, turn, move };
+export { x, y, a, r, s, turn, move, go };

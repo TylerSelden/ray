@@ -8,10 +8,10 @@ let current = {
   keys: {}
 }
 let binds = {
-  'w': () => { Player.move.foreward(Player.s) },
-  'a': () => { Player.move.left(Player.s) },
-  's': () => { Player.move.backward(Player.s) },
-  'd': () => { Player.move.right(Player.s) }
+  'w': () => { Player.go.forward() },
+  'a': () => { Player.go.left() },
+  's': () => { Player.go.backward() },
+  'd': () => { Player.go.right() }
 }
 
 
@@ -39,9 +39,13 @@ function init() {
 function logic() {
   // handle inputs
   for (let i in binds) if (current.keys[i]) binds[i]();
+  Player.move(Player.s);
 
   // actually start raycasting here (wow)
 }
+
+window.player = Player;
+window.maths = Maths;
 
 function render() {
   Canvas.resize();
