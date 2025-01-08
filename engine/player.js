@@ -2,7 +2,7 @@ import * as Maths from "./maths.js";
 
 let x = 32;
 let y = 32;
-let a = 45;
+let a = 30;
 let r = 8;
 let s = 2;
 
@@ -15,8 +15,14 @@ function turn(d) {
   while (a > 360) a -= 360;
 }
 
-function move(d) {
+function move() {
+  let d = Maths.pythag(dX, dY);
+  if (d === 0) return;
   
+  dX /= d;
+  dY /= d;
+  x += dX * Maths.cos(a) - dY * Maths.sin(a);
+  y += dX * Maths.sin(a) + dY * Maths.cos(a);
 
   dX = 0;
   dY = 0;
@@ -24,16 +30,16 @@ function move(d) {
 
 let go = {
   forward: function() {
-    dY += 2;
+    dX += s;
   },
   right: function() {
-    dX += 2;
+    dY += s;
   },
   backward: function() {
-    dY -= 2;
+    dX -= s;
   },
   left: function() {
-    dX -= 2;
+    dY -= s;
   }
 }
 

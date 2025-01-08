@@ -11,7 +11,9 @@ let binds = {
   'w': () => { Player.go.forward() },
   'a': () => { Player.go.left() },
   's': () => { Player.go.backward() },
-  'd': () => { Player.go.right() }
+  'd': () => { Player.go.right() },
+  "ArrowLeft": () => { Player.turn(-3) },
+  "ArrowRight": () => { Player.turn(3) }
 }
 
 

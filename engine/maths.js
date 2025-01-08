@@ -22,4 +22,15 @@ function vecY(y, a, d) {
   return y + (d * sin(a));
 }
 
-export { toRad, toDeg, sin, cos, tan, vecX, vecY };
+function angleOf(x1, y1, x2, y2) {
+  let dX = x2 - x1;
+  let dY = y2 - y1;
+  let theta = toDeg(Math.atan2(dY, dX));
+  return theta - 180;
+}
+
+function pythag(d1, d2) {
+  return Math.sqrt(d1 * d1 + d2 * d2);
+}
+
+export { toRad, toDeg, sin, cos, tan, vecX, vecY, angleOf, pythag };
