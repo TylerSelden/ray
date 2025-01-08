@@ -2,6 +2,7 @@ import * as Canvas from "./canvas.js";
 import * as Scene from "./scene.js";
 import * as Maths from "./maths.js";
 import * as Player from "./player.js";
+import * as Rays from "./rays.js";
 
 
 let current = {
@@ -44,6 +45,7 @@ function logic() {
   Player.move(Player.s);
 
   // actually start raycasting here (wow)
+  Rays.list[0] = new Rays.Ray(Player.x, Player.y, Player.a, Scene.blockSize);
 }
 
 window.player = Player;
@@ -58,12 +60,14 @@ function render() {
   // draw map on dev canvas
   for (let i in Scene.ascii) {
     for (let j in Scene.ascii[i]) {
-      Canvas.ddraw.rect(Scene.blockSize * i, Scene.blockSize * j, Scene.blockSize, Scene.blockSize, Scene.textureMap[Scene.ascii[j][i]]);
+      Canvas.ddraw.rect(Scene.blockSize * i, Scene.blockSize * j, Scene.blockSize, Scene.blockSize, Scene.blockAt(i, j).color);
     }
   }
   // player on dev canvas
   Canvas.ddraw.circle(Player.x, Player.y, Player.r, "yellow");
   Canvas.ddraw.line(Player.x, Player.y, Maths.vecX(Player.x, Player.a, 16), Maths.vecY(Player.y, Player.a, 16), 3, "yellow");
+
+  Rays.list[0].nextHit();
 
   requestAnimationFrame(render);
 }

@@ -1,8 +1,8 @@
 import * as Maths from "./maths.js";
 
-let x = 32;
-let y = 32;
-let a = 30;
+let x = 29;
+let y = 96;
+let a = 85;
 let r = 8;
 let s = 2;
 

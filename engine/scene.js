@@ -1,16 +1,30 @@
 let name = "Dev map";
 let blockSize = 32;
 
-let ascii = `#####
-## ##
-#   #
-#   #
-#####`.split('\n');
+let ascii = ` #.# 
+     
+     
+     
+ #.# `.split('\n');
 
 let textureMap = {
-  ' ': "rgba(0, 0, 0, 0)",
-  '.': "white",
-  '#': "blue"
+  ' ': {
+    color: "rgba(0, 0, 0, 0)",
+    solid: false
+  },
+  '.': {
+    color: "white",
+    solid: true
+  },
+  '#': {
+    color: "blue",
+    solid: true
+  }
 }
 
-export { name, blockSize, ascii, textureMap };
+function blockAt(x, y) {
+  if (ascii[y] === undefined || ascii[y][x] === undefined) return textureMap[' '];
+  return textureMap[ascii[y][x]];
+}
+
+export { name, blockSize, ascii, textureMap, blockAt };
