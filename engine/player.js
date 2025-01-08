@@ -6,7 +6,6 @@ let a = 45;
 let r = 8;
 let s = 2;
 
-
 function turn(d) {
   a += d;
   while (d < 0) d += 360;
@@ -20,6 +19,14 @@ let move = {
   backward: function(d) {
     x -= Maths.vecX(0, a, d);
     y -= Maths.vecY(0, a, d);
+  },
+  left: function(d) {
+    x += d * Maths.sin(a);
+    y += d * Maths.cos(a);
+  },
+  right: function(d) {
+    x -= d * Maths.sin(a);
+    x -= d * Maths.cos(a);
   }
 }
 

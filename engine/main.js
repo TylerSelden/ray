@@ -7,6 +7,14 @@ import * as Player from "./player.js";
 let current = {
   keys: {}
 }
+let binds = {
+  'w': () => { Player.move.foreward(Player.s) },
+  'a': () => { Player.move.left(Player.s) },
+  's': () => { Player.move.backward(Player.s) },
+  'd': () => { Player.move.right(Player.s) }
+}
+
+
 
 function init() {
   Canvas.init();
@@ -29,8 +37,10 @@ function init() {
 }
 
 function logic() {
-  if (current.keys.ArrowUp || current.keys.w) Player.move.foreward(2);
-  if (current.keys.ArrowDown || current.keys.s) Player.move.backward(2);
+  // handle inputs
+  for (let i in binds) if (current.keys[i]) binds[i]();
+
+  // actually start raycasting here (wow)
 }
 
 function render() {
