@@ -14,7 +14,10 @@ let binds = {
   's': () => { Player.go.backward() },
   'd': () => { Player.go.right() },
   "ArrowLeft": () => { Player.turn(-3) },
-  "ArrowRight": () => { Player.turn(3) }
+  "ArrowRight": () => { Player.turn(3) },
+  'm': () => {
+    alert(JSON.stringify(Rays.list[0]))
+  }
 }
 
 
@@ -35,6 +38,8 @@ function init() {
     Player.turn(evt.movementX / 10);
   });
 
+  Rays.init(10000, Player.x, Player.y, Player.a, Player.fov);
+
   render();
   console.log("Engine initialized!");
 }
@@ -45,7 +50,7 @@ function logic() {
   Player.move(Player.s);
 
   // actually start raycasting here (wow)
-  Rays.list[0] = new Rays.Ray(Player.x, Player.y, Player.a, Scene.blockSize);
+  Rays.update(Player.x, Player.y, Player.a, Player.fov);
 }
 
 window.player = Player;
@@ -67,7 +72,9 @@ function render() {
   Canvas.ddraw.circle(Player.x, Player.y, Player.r, "yellow");
   Canvas.ddraw.line(Player.x, Player.y, Maths.vecX(Player.x, Player.a, 16), Maths.vecY(Player.y, Player.a, 16), 3, "yellow");
 
-  Rays.list[0].nextHit();
+  for (let ray of Rays.list) {
+    ray.nextHit();
+  }
 
   requestAnimationFrame(render);
 }

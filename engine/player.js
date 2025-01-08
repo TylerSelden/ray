@@ -5,6 +5,7 @@ let y = 96;
 let a = 85;
 let r = 8;
 let s = 2;
+let fov = 60;
 
 let dX = 0;
 let dY = 0;
@@ -43,4 +44,4 @@ let go = {
   }
 }
 
-export { x, y, a, r, s, turn, move, go };
+export { x, y, a, r, s, fov, turn, move, go };

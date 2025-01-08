@@ -3,13 +3,12 @@ import * as Canvas from "./canvas.js";
 import * as Scene from "./scene.js";
 
 class Ray {
-  constructor(x, y, a, blockSize) {
+  constructor(x, y, a) {
     this.x = x;
     this.y = y;
     this.ox = x;
     this.oy = y;
     this.a = a;
-    this.blockSize = blockSize;
 
     this.sin = Maths.sin(a);
     this.cos = Maths.cos(a);
@@ -17,13 +16,25 @@ class Ray {
     this.d = 0;
   }
 
+  update(x, y, a) {
+    this.x = x;
+    this.y = y;
+    this.ox = x;
+    this.oy = y;
+    this.a = a;
+
+    this.sin = Maths.sin(a);
+    this.cos = Maths.cos(a);
+    this.tan = Maths.tan(a);
+  }
+
   roundX() {
-    if (this.cos < 0) return (Math.floor((this.x - 1) / this.blockSize) * this.blockSize) - this.x;
-    return (Math.ceil((this.x + 1) / this.blockSize) * this.blockSize) - this.x;
+    if (this.cos < 0) return (Math.floor((this.x - 1) / Scene.blockSize) * Scene.blockSize) - this.x;
+    return (Math.ceil((this.x + 1) / Scene.blockSize) * Scene.blockSize) - this.x;
   }
   roundY() {
-    if (this.sin < 0) return (Math.floor((this.y - 1) / this.blockSize) * this.blockSize) - this.y;
-    return (Math.ceil((this.y + 1) / this.blockSize) * this.blockSize) - this.y;
+    if (this.sin < 0) return (Math.floor((this.y - 1) / Scene.blockSize) * Scene.blockSize) - this.y;
+    return (Math.ceil((this.y + 1) / Scene.blockSize) * Scene.blockSize) - this.y;
   }
   nextVert() {
     let y = this.roundY();
@@ -60,8 +71,8 @@ class Ray {
 
 
       // FIX THIS PLEASEEEE
-      mapX = Math.floor(this.x / this.blockSize);
-      mapY = Math.floor(this.y / this.blockSize);
+      mapX = Math.floor(this.x / Scene.blockSize);
+      mapY = Math.floor(this.y / Scene.blockSize);
       if (nH.d < nV.d) {
         if (this.cos < 0) mapX--;
       } else {
@@ -71,10 +82,26 @@ class Ray {
       if (Scene.blockAt(mapX, mapY).solid) break;
     }
     Canvas.ddraw.line(this.ox, this.oy, this.x, this.y, 2, "red");
-    Canvas.ddraw.rect(mapX * this.blockSize, mapY * this.blockSize, this.blockSize, this.blockSize, "rgba(255, 255, 0, 0.25)");
+    Canvas.ddraw.rect(mapX * Scene.blockSize, mapY * Scene.blockSize, Scene.blockSize, Scene.blockSize, "rgba(255, 255, 0, 0.25)");
+
+    this.x = this.ox;
+    this.y = this.oy;
+    this.d = 0;
   }
 }
 
 let list = [];
 
-export { Ray, list };
+function init(num, x, y, a, fov) {
+  for (let i = 0; i < num; i++) {
+    list.push(new Ray(x, y, a + (fov / num) * i));
+  }
+}
+
+function update(x, y, a, fov) {
+  for (let i in list) {
+    list[i].update(x, y, a + (fov / list.length) * i);
+  }
+}
+
+export { Ray, list, init, update };
