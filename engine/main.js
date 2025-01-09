@@ -37,7 +37,7 @@ function init() {
     if (document.pointerLockElement) Player.turn(evt.movementX / 10);
   });
 
-  Rays.init(1000, Player.x, Player.y, Player.a, Player.fov);
+  Rays.init(2770, Player.x, Player.y, Player.a, Player.fov);
 
   render();
   console.log("Engine initialized!");
@@ -56,7 +56,7 @@ function logic() {
   }
   
   for (let i in Rays.list) {
-    zbuffer[i] = Rays.list[i].nextHit();
+    zbuffer[i] = Rays.list[i].getDist();
   }
 }
 

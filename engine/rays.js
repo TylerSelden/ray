@@ -56,7 +56,7 @@ class Ray {
     return { x, y, d };
   }
 
-  nextHit() {
+  getDist() {
     this.x = this.ox;
     this.y = this.oy;
     this.d = 0;
