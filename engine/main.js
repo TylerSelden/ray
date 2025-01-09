@@ -4,7 +4,6 @@ import * as Maths from "./maths.js";
 import * as Player from "./player.js";
 import * as Rays from "./rays.js";
 
-
 let current = {
   keys: {}
 }
@@ -35,26 +34,41 @@ function init() {
     document.body.requestPointerLock();
   });
   document.body.addEventListener("mousemove", (evt) => {
-    Player.turn(evt.movementX / 10);
+    if (document.pointerLockElement) Player.turn(evt.movementX / 10);
   });
 
-  Rays.init(10000, Player.x, Player.y, Player.a, Player.fov);
+  Rays.init(1000, Player.x, Player.y, Player.a, Player.fov);
 
   render();
   console.log("Engine initialized!");
 }
 
+let zbuffer = [];
 function logic() {
   // handle inputs
   for (let i in binds) if (current.keys[i]) binds[i]();
   Player.move(Player.s);
 
   // actually start raycasting here (wow)
-  Rays.update(Player.x, Player.y, Player.a, Player.fov);
+  if (player.moved) {
+    Rays.update(Player.x, Player.y, Player.a, Player.fov);
+    Player.resetMoved();
+  }
+  
+  for (let i in Rays.list) {
+    zbuffer[i] = Rays.list[i].nextHit();
+  }
 }
 
 window.player = Player;
 window.maths = Maths;
+
+function colHeight(d, rD) {
+  if (d > rD) return 0;
+
+  let h = Canvas.canvas.height * (1 - d / rD);
+  return Math.max(0, Math.floor(h));
+}
 
 function render() {
   Canvas.resize();
@@ -72,10 +86,12 @@ function render() {
   Canvas.ddraw.circle(Player.x, Player.y, Player.r, "yellow");
   Canvas.ddraw.line(Player.x, Player.y, Maths.vecX(Player.x, Player.a, 16), Maths.vecY(Player.y, Player.a, 16), 3, "yellow");
 
-  for (let ray of Rays.list) {
-    ray.nextHit();
+  let inc = Canvas.canvas.width / zbuffer.length;
+  for (let i in zbuffer) {
+    let h = colHeight(zbuffer[i].d, 256)
+    Canvas.draw.rect(inc * i, Canvas.canvas.height / 2 - h / 2, inc, h, Scene.blockAt(zbuffer[i].mapX, zbuffer[i].mapY).color);
   }
-
+  
   requestAnimationFrame(render);
 }
 

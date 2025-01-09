@@ -7,6 +7,8 @@ let r = 8;
 let s = 2;
 let fov = 60;
 
+let moved = false;
+
 let dX = 0;
 let dY = 0;
 
@@ -14,6 +16,8 @@ function turn(d) {
   a += d;
   while (a < 0) a += 360;
   while (a > 360) a -= 360;
+
+  moved = true;
 }
 
 function move() {
@@ -27,6 +31,8 @@ function move() {
 
   dX = 0;
   dY = 0;
+
+  moved = true;
 }
 
 let go = {
@@ -44,4 +50,8 @@ let go = {
   }
 }
 
-export { x, y, a, r, s, fov, turn, move, go };
+function resetMoved() {
+  moved = false;
+}
+
+export { x, y, a, r, s, fov, moved, resetMoved, turn, move, go };
