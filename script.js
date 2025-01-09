@@ -6,5 +6,6 @@ window.onerror = function(msg, url, linenumber) {
 }
 
 window.onload = function(dev) {
+  if (window.location.search.includes("dev=false")) document.getElementById("dev").classList.add("hidden");
   Raycaster.init(dev);
 }
