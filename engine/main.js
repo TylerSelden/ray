@@ -31,7 +31,7 @@ function init() {
     delete current.keys[evt.key];
   });
   document.body.addEventListener("click", (evt) => {
-    document.body.requestPointerLock();
+    if (document.body.requestPointerLock) document.body.requestPointerLock();
   });
   document.body.addEventListener("mousemove", (evt) => {
     if (document.pointerLockElement) Player.turn(evt.movementX / 10);
