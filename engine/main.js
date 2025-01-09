@@ -37,7 +37,7 @@ function init() {
     if (document.pointerLockElement) Player.turn(evt.movementX / 10);
   });
 
-  Rays.init(2770, Player.x, Player.y, Player.a, Player.fov);
+  Rays.init(Canvas.canvas.width, Player.x, Player.y, Player.a, Player.fov);
 
   render();
   console.log("Engine initialized!");

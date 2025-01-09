@@ -5,6 +5,8 @@ function init() {
   ctx = canvas.getContext("2d");
   dcanvas = document.getElementById("dev");
   dctx = dcanvas.getContext("2d");
+
+  resize();
 }
 
 function resize() {
