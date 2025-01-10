@@ -51,22 +51,37 @@ function logic() {
   render();
 }
 
+// dev function
+function minimap() {
+  Canvas.ddraw.clear();
+
+  // canvas center
+  let cX = Canvas.dcanvas.width / 2;
+  let cY = Canvas.dcanvas.height / 2;
+
+  // offsets
+  let oX = (-Player.x / Settings.minimapZoom) + cX;
+  let oY = (-Player.y / Settings.minimapZoom) + cY;
+
+  // draw map
+  for (let i in Scene.ascii) {
+    for (let j in Scene.ascii[i]) {
+      let x = (Scene.blockSize * j) / Settings.minimapZoom;
+      let y = (Scene.blockSize * i) / Settings.minimapZoom;
+      Canvas.ddraw.rect(x + oX, y + oY, Scene.blockSize / Settings.minimapZoom, Scene.blockSize / Settings.minimapZoom, Scene.blockAt(j, i).color);
+    }
+  }
+
+  Canvas.ddraw.circle(cX, cY, Player.r / Settings.minimapZoom, "yellow");
+  Canvas.ddraw.line(cX, cY, Maths.vecX(cX, Player.a, (16 / Settings.minimapZoom)), Maths.vecY(cY, Player.a, (16 / Settings.minimapZoom)), 2, "yellow");
+}
 
 function render() {
   Canvas.resize();
   // eventually, reset ray count
   Canvas.draw.clear();
 
-  // draw map on dev canvas
-  for (let i in Scene.ascii) {
-    for (let j in Scene.ascii[i]) {
-      Canvas.ddraw.rect(Scene.blockSize * i, Scene.blockSize * j, Scene.blockSize, Scene.blockSize, Scene.blockAt(i, j).color);
-    }
-  }
-
-  // player on dev canvas
-  Canvas.ddraw.circle(Player.x, Player.y, Player.r, "yellow");
-  Canvas.ddraw.line(Player.x, Player.y, Maths.vecX(Player.x, Player.a, 16), Maths.vecY(Player.y, Player.a, 16), 3, "yellow");
+  minimap();
 
   // render walls
   let inc = Canvas.canvas.width / zbuffer.length;

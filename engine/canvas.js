@@ -63,4 +63,4 @@ let ddraw = {
   }
 }
 
-export { canvas, dcanvas, init, resize, draw, ddraw };
+export { canvas, dcanvas, ctx, dctx, init, resize, draw, ddraw };
