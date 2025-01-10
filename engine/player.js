@@ -5,10 +5,9 @@ let y = 48;
 let a = 90;
 let r = 8;
 let s = 2;
-let fov = 60;
 
+// temporary stuff
 let moved = false;
-
 let dX = 0;
 let dY = 0;
 
@@ -36,22 +35,14 @@ function move() {
 }
 
 let go = {
-  forward: function() {
-    dX += s;
-  },
-  right: function() {
-    dY += s;
-  },
-  backward: function() {
-    dX -= s;
-  },
-  left: function() {
-    dY -= s;
-  }
+  forward: function() { dX += s },
+  right: function() { dY += s },
+  backward: function() { dX -= s },
+  left: function() { dY -= s }
 }
 
 function resetMoved() {
   moved = false;
 }
 
-export { x, y, a, r, s, fov, moved, resetMoved, turn, move, go };
+export { x, y, a, r, s, moved, resetMoved, turn, move, go };

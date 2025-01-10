@@ -1,8 +1,12 @@
 import * as Maths from "./maths.js";
 import * as Canvas from "./canvas.js";
 import * as Scene from "./scene.js";
+import * as Settings from "./settings.js";
 
+// to prevent edge cases (or CoRnEr CaSeS hAhAhAhAhA)
 const EPSILON = 1e-9;
+
+let list = [];
 
 class Ray {
   constructor(x, y, a) {
@@ -23,13 +27,18 @@ class Ray {
     this.y = y;
     this.ox = x;
     this.oy = y;
+
+    // no need to re-calculate all of the trig values if a didn't change
+    let cA = this.a !== a;
     this.a = a;
 
-    this.sin = Maths.sin(a);
-    this.cos = Maths.cos(a);
-    this.tan = Maths.tan(a);
+    if (cA) {
+      this.sin = Maths.sin(a);
+      this.cos = Maths.cos(a);
+      this.tan = Maths.tan(a);
+    }
   }
-
+  
   roundX() {
     if (this.cos < 0) return (Math.floor((this.x - EPSILON) / Scene.blockSize) * Scene.blockSize) - this.x;
     return (Math.ceil((this.x + EPSILON) / Scene.blockSize) * Scene.blockSize) - this.x;
@@ -39,6 +48,7 @@ class Ray {
     return (Math.ceil((this.y + EPSILON) / Scene.blockSize) * Scene.blockSize) - this.y;
   }
 
+  // along horizontal line
   nextVert() {
     let y = this.roundY();
     let x = y / this.tan + this.x;
@@ -47,6 +57,7 @@ class Ray {
 
     return { x, y, d };
   }
+  // along vertical line
   nextHoriz() {
     let x = this.roundX();
     let y = x * this.tan + this.y;
@@ -57,21 +68,24 @@ class Ray {
   }
 
   getDist() {
+    // reset values
     this.x = this.ox;
     this.y = this.oy;
     this.d = 0;
     let mapX, mapY;
 
-    while (this.d < 3000) {
+    while (this.d < Settings.rayDistance) {
       let nH = this.nextHoriz();
       let nV = this.nextVert();
 
+      // get shorter distance and go there
       let n = (nH.d < nV.d) ? nH : nV;
 
       this.x = n.x;
       this.y = n.y;
       this.d += n.d;
 
+      // get correct block coords
       mapX = Math.floor(this.x / Scene.blockSize);
       mapY = Math.floor(this.y / Scene.blockSize);
       if (nH.d < nV.d) {
@@ -82,13 +96,9 @@ class Ray {
 
       if (Scene.blockAt(mapX, mapY).solid) break;
     }
-    Canvas.ddraw.line(this.ox, this.oy, this.x, this.y, 2, "red");
-
     return { mapX, mapY, a: this.a, d: this.d };
   }
 }
-
-let list = [];
 
 function init(num, x, y, a, fov) {
   let bA = a - (fov / 2);

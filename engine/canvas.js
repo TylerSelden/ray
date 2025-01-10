@@ -10,9 +10,9 @@ function init() {
 }
 
 function resize() {
-  canvas.width = canvas.offsetWidth;
+  canvas.width = Math.floor(canvas.offsetWidth / 2) * 2;
   canvas.height = canvas.offsetHeight;
-  dcanvas.width = dcanvas.offsetWidth;
+  dcanvas.width = Math.floor(dcanvas.offsetWidth / 2) * 2;
   dcanvas.height = dcanvas.offsetHeight;
 }
 
@@ -34,6 +34,9 @@ let draw = {
     ctx.beginPath();
     ctx.arc(x, y, r, 0, 7);
     ctx.fill();
+  },
+  clear: function() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 }
 let ddraw = {
@@ -54,7 +57,10 @@ let ddraw = {
     dctx.beginPath();
     dctx.arc(x, y, r, 0, 7);
     dctx.fill();
+  },
+  clear: function() {
+    dctx.clearRect(0, 0, dcanvas.width, dcanvas.height);
   }
 }
 
-export { canvas, dcanvas, ctx, dctx, init, resize, draw, ddraw };
+export { canvas, dcanvas, init, resize, draw, ddraw };
