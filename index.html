@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      * {
-        margin: 0;
-        border: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: black;
-      }
-      body {
-        display: flex;
-        height: 100dvh;
-      }
-      
-      canvas {
-        flex: 1;
-        height: 100%;
-        width: 50%;
-      }
-
-      .hidden {
-        display: none;
-      }
-    </style>
-    <title>Raycaster Game</title>
-  </head>
-  <body>
-    <canvas id="main"></canvas>
-    <canvas id="dev"></canvas>
-    <script src="script.js" type="module"></script>
-  </body>
+<head>
+  <style>
+    * {
+      margin: 0;
+      border: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: black;
+    }
+    body {
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+    }
+    #main {
+      width: 100%;
+      height: 100%;
+    }
+    #dev {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 25%; /* Adjust width as needed */
+      height: 25%; /* Adjust height as needed */
+      pointer-events: none; /* Ensures the dev canvas doesn't interfere with the main canvas interactions */
+      border: 2px solid gray;
+    }
+  </style>
+  <title>Raycaster Game</title>
+</head>
+<body>
+  <canvas id="main"></canvas>
+  <canvas id="dev"></canvas>
+  <script src="script.js" type="module"></script>
+</body>
 </html>
+

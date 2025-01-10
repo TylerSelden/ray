@@ -19,7 +19,7 @@ let binds = {
   }
 }
 
-
+window.Rays = Rays;
 
 function init() {
   Canvas.init();
@@ -63,11 +63,12 @@ function logic() {
 window.player = Player;
 window.maths = Maths;
 
-function colHeight(d, rD) {
+function colHeight(d, a, rD) {
   if (d > rD) return 0;
 
-  let h = Canvas.canvas.height * (1 - d / rD);
-  return Math.max(0, Math.floor(h));
+  // fisheye correction
+  d = d * Maths.cos(a - Player.a)
+  return (Scene.blockSize * Canvas.canvas.height / d * (2 * Maths.tan(Player.fov / 2)));
 }
 
 function render() {
@@ -88,7 +89,7 @@ function render() {
 
   let inc = Canvas.canvas.width / zbuffer.length;
   for (let i in zbuffer) {
-    let h = colHeight(zbuffer[i].d, 256)
+    let h = colHeight(zbuffer[i].d, zbuffer[i].a, 3000);
     Canvas.draw.rect(inc * i, Canvas.canvas.height / 2 - h / 2, inc, h, Scene.blockAt(zbuffer[i].mapX, zbuffer[i].mapY).color);
   }
   

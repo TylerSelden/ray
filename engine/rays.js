@@ -62,7 +62,7 @@ class Ray {
     this.d = 0;
     let mapX, mapY;
 
-    while (this.d < 300) {
+    while (this.d < 3000) {
       let nH = this.nextHoriz();
       let nV = this.nextVert();
 
@@ -84,7 +84,7 @@ class Ray {
     }
     Canvas.ddraw.line(this.ox, this.oy, this.x, this.y, 2, "red");
 
-    return { mapX, mapY, d: this.d };
+    return { mapX, mapY, a: this.a, d: this.d };
   }
 }
 
