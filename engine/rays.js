@@ -72,7 +72,7 @@ class Ray {
     this.x = this.ox;
     this.y = this.oy;
     this.d = 0;
-    let mapX, mapY;
+    let mapX, mapY, dir;
     let alpha = 1;
 
     while (this.d < Settings.rayDistance) {
@@ -91,16 +91,24 @@ class Ray {
       mapX = Math.floor(this.x / Scene.blockSize);
       mapY = Math.floor(this.y / Scene.blockSize);
       if (nH.d < nV.d) {
-        if (this.cos < 0) mapX--;
+        dir = 3;
+        if (this.cos < 0) {
+          mapX--;
+          dir = 1;
+        }
       } else {
-        if (this.sin < 0) mapY--;
+        dir = 0;
+        if (this.sin < 0) {
+          mapY--;
+          dir = 2;
+        }
       }
 
-
-      let block = Scene.blockAt(mapX, mapY);
+      
+      let block = Scene.blockAt(mapX, mapY, dir);
       if (block.solid) break;
     }
-    return { mapX, mapY, a: this.a, d: this.d, alpha: alpha };
+    return { mapX, mapY, dir, a: this.a, d: this.d, alpha: alpha };
   }
 }
 

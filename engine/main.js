@@ -67,11 +67,21 @@ function minimap() {
   let oY = (-Player.y / Settings.minimapZoom) + cY;
 
   // draw map
-  for (let i in Scene.ascii) {
-    for (let j in Scene.ascii[i]) {
-      let x = (Scene.blockSize * j) / Settings.minimapZoom;
-      let y = (Scene.blockSize * i) / Settings.minimapZoom;
-      Canvas.ddraw.rect(x + oX, y + oY, Scene.blockSize / Settings.minimapZoom, Scene.blockSize / Settings.minimapZoom, Scene.blockAt(j, i).color);
+  let size = Scene.blockSize / Settings.minimapZoom;
+  let w = 4 / Settings.minimapZoom;
+
+  for (let i in Scene.data) {
+    for (let j in Scene.data[i]) {
+      let x = size * j + oX;
+      let y = size * i + oY;
+
+      let block = Scene.blockAt(j, i);
+
+      // top, right, bottom, left
+      Canvas.ddraw.line(x, y - w, x + size, y - w, w, Scene.textureMap[block[0]].color);
+      Canvas.ddraw.line(x + size + w, y, x + size + w, y + size, w, Scene.textureMap[block[1]].color);
+      Canvas.ddraw.line(x, y + size, x + size, y + size, w, Scene.textureMap[block[2]].color);
+      Canvas.ddraw.line(x, y, x, y + size, w, Scene.textureMap[block[3]].color);
     }
   }
 
@@ -91,7 +101,7 @@ function render() {
   let c = Canvas.canvas.height / 2;
   for (let i in zbuffer) {
     let h = Utils.colHeight(zbuffer[i].d, zbuffer[i].a);
-    let block = Scene.blockAt(zbuffer[i].mapX, zbuffer[i].mapY);
+    let block = Scene.blockAt(zbuffer[i].mapX, zbuffer[i].mapY, zbuffer[i].dir);
     let color = block.color.replace(/rgba\((\d+), (\d+), (\d+), (\d+\.\d+|\d+)\)/, `rgba($1, $2, $3, ${zbuffer[i].alpha})`);
 
     if (window.debug) {

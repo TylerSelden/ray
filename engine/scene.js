@@ -1,33 +1,15 @@
 let name = "Dev map";
 let blockSize = 32;
 
-// A more varied ASCII representation, with different terrain types
-let ascii = `
-#######
-#     #
-#     #
-#     #
-#     #
-#     #
-#     #
-#######
 
 
-........
-.      .
-.      .
-.      .
-.      .
-.      .
-..    ..
- ..  ..
-  .  .
-  .  ...
-  .  
-  ......
-`.split('\n');
+let data = [
+  ["    ", " .  ", "   #"],
+  ["  . ", " .. ", "   #"],
+  ["#   ", "#   ", "%&+#"],
+]
 
-// Add new textures and colors for different types of terrain
+
 let textureMap = {
   ' ': {
     color: "rgba(0, 0, 0, 0)",
@@ -55,10 +37,12 @@ let textureMap = {
   }
 }
 
-function blockAt(x, y) {
-  if (ascii[y] === undefined || ascii[y][x] === undefined || textureMap[ascii[y][x]] === undefined) return textureMap[' '];
-  return textureMap[ascii[y][x]];
+function blockAt(x, y, dir) {
+  if (!data[y] || !data[y][x]) return textureMap[' '];
+  if (!data[y][x][dir]) return data[y][x];
+
+  return textureMap[data[y][x][dir]];
 }
 
-export { name, blockSize, ascii, textureMap, blockAt };
+export { name, blockSize, data, textureMap, blockAt };
 
