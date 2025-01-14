@@ -3,11 +3,28 @@ let blockSize = 32;
 
 // A more varied ASCII representation, with different terrain types
 let ascii = `
- #.#   #   # #
- #.#   #.#.#.#
-     #.#.#.#  
-#.# #     #.# 
- #.#.#.#.#.#  
+#######
+#     #
+#     #
+#     #
+#     #
+#     #
+#     #
+#######
+
+
+........
+.      .
+.      .
+.      .
+.      .
+.      .
+..    ..
+ ..  ..
+  .  .
+  .  ...
+  .  
+  ......
 `.split('\n');
 
 // Add new textures and colors for different types of terrain
@@ -17,44 +34,29 @@ let textureMap = {
     solid: false
   },
   '.': {
-    color: "white",
+    color: "rgba(255, 255, 255, 1)",
     solid: true
   },
   '#': {
-    color: "blue",
+    color: "rgba(0, 0, 255, 1)",
     solid: true
   },
   '+': {
-    color: "green",
+    color: "rgba(0, 255, 0, 1)",
     solid: true
   },
   '&': {
-    color: "yellow",
+    color: "rgba(255, 255, 0, 1)",
     solid: true
   },
   '%': {
-    color: "red",
+    color: "rgba(255, 0, 0, 1)",
     solid: true
   }
 }
 
-// Function to add some random terrain variation (like obstacles or paths)
-function randomizeMap() {
-  for (let y = 0; y < ascii.length; y++) {
-    for (let x = 0; x < ascii[y].length; x++) {
-      if (Math.random() < 0.05) {  // 5% chance to replace terrain
-        let randChar = ['#', '.', '%', '&', '+'][Math.floor(Math.random() * 5)];
-        ascii[y] = ascii[y].substring(0, x) + randChar + ascii[y].substring(x + 1);
-      }
-    }
-  }
-}
-
-// Apply the randomization to the map
-randomizeMap();
-
 function blockAt(x, y) {
-  if (ascii[y] === undefined || ascii[y][x] === undefined) return textureMap[' '];
+  if (ascii[y] === undefined || ascii[y][x] === undefined || textureMap[ascii[y][x]] === undefined) return textureMap[' '];
   return textureMap[ascii[y][x]];
 }
 

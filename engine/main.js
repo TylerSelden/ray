@@ -17,7 +17,10 @@ let binds = {
   's': () => { Player.go.backward() },
   'd': () => { Player.go.right() },
   "ArrowLeft": () => { Player.turn(-3) },
-  "ArrowRight": () => { Player.turn(3) }
+  "ArrowRight": () => { Player.turn(3) },
+
+  // dev stuff
+  'e': () => { }
 }
 let zbuffer = [];
 
@@ -89,7 +92,13 @@ function render() {
   for (let i in zbuffer) {
     let h = Utils.colHeight(zbuffer[i].d, zbuffer[i].a);
     let block = Scene.blockAt(zbuffer[i].mapX, zbuffer[i].mapY);
-    Canvas.draw.rect(inc * i, c - h / 2, inc, h, block.color);
+    let color = block.color.replace(/rgba\((\d+), (\d+), (\d+), (\d+\.\d+|\d+)\)/, `rgba($1, $2, $3, ${zbuffer[i].alpha})`);
+
+    if (window.debug) {
+      window.debug = false;
+      console.log(color);
+    }
+    Canvas.draw.rect(inc * i, c - h / 2, inc, h, color);
   }
 
   requestAnimationFrame(logic);

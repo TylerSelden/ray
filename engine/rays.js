@@ -73,6 +73,7 @@ class Ray {
     this.y = this.oy;
     this.d = 0;
     let mapX, mapY;
+    let alpha = 1;
 
     while (this.d < Settings.rayDistance) {
       let nH = this.nextHoriz();
@@ -84,6 +85,7 @@ class Ray {
       this.x = n.x;
       this.y = n.y;
       this.d += n.d;
+      alpha -= n.d / Settings.light;
 
       // get correct block coords
       mapX = Math.floor(this.x / Scene.blockSize);
@@ -94,9 +96,11 @@ class Ray {
         if (this.sin < 0) mapY--;
       }
 
-      if (Scene.blockAt(mapX, mapY).solid) break;
+
+      let block = Scene.blockAt(mapX, mapY);
+      if (block.solid) break;
     }
-    return { mapX, mapY, a: this.a, d: this.d };
+    return { mapX, mapY, a: this.a, d: this.d, alpha: alpha };
   }
 }
 
