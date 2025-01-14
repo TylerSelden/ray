@@ -12,6 +12,9 @@ let binds = {
   },
   'e': () => {
     zoom(Global.zoom + .1);
+  },
+  'x': () => {
+    Global.zoom = 1;
   }
 }
 
