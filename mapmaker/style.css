@@ -1,0 +1,45 @@
+/* Full screen height */
+body, html {
+  height: 100%;
+  margin: 0;
+  background-color: black;
+  touch-action: none;
+}
+
+#canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.left { left: 0; }
+.right { right: 0; }
+
+.toolbar {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: fit-content;
+  height: 80vh;
+  border-radius: 2px;
+  background-color: #444;
+}
+
+.toolbar .btn {
+  aspect-ratio: 1;
+  padding: 0;
+  min-width: 50px;
+}
+.btn-color:hover, .selected {
+  border: 3px solid #fff;
+}
+.red { background-color: red !important; }
+.green { background-color: green !important; }
+.blue { background-color: blue !important; }
+.yellow { background-color: yellow !important; border-color: #000 !important; }
+
+button {
+  display: block;
+  width: 100%;
+}
+

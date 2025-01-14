@@ -9,7 +9,8 @@ import * as Utils from "./utils.js";
 
 // engine state things
 let current = {
-  keys: {}
+  keys: {},
+  lastTouch: null
 }
 let binds = {
   'w': () => { Player.go.forward() },
@@ -33,6 +34,16 @@ function init() {
   document.body.addEventListener("click", (evt) => { if (document.body.requestPointerLock) document.body.requestPointerLock() });
   document.body.addEventListener("mousemove", (evt) => { if (document.pointerLockElement) Player.turn(evt.movementX / 10) });
 
+  // touchscreen support too
+  document.body.addEventListener("touchmove", (evt) => {
+    const touch = evt.touches[0].clientX;
+    if (current.lastTouch !== null) {
+      Player.turn((touch - current.lastTouch) / 10);
+    }
+    current.lastTouch = touch;
+  });
+  document.body.addEventListener("touchend", (evt) => { current.lastTouch = null; })
+  
   // make rays
   Rays.init(Canvas.canvas.width * Settings.rayFactor, Player.x, Player.y, Player.a, Settings.fov);
 }
