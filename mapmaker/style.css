@@ -23,6 +23,9 @@ body, html {
   height: 80vh;
   border-radius: 2px;
   background-color: #444;
+  overflow-y: auto;
+  align-items: center;
+  justify-content: safe center;
 }
 
 .toolbar .btn {
@@ -31,9 +34,11 @@ body, html {
   min-width: 50px;
   font-size: 175%;
   font-weight: bold;
+  border-color: #fff;
+  transition: border-width .1s;
 }
-.btn-color:hover, .selected {
-  border: 3px solid #fff;
+.btn:hover, .btn:active, .selected {
+  border: 3px solid !important;
 }
 .dark-border { border-color: #000; }
 .hidden { display: none; }

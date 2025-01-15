@@ -1,6 +1,7 @@
 import * as Global from "./global.js";
 import * as Events from "./events.js";
 import * as Canvas from "./canvas.js";
+import * as Scene from "./scene.js";
 
 let canvas, ctx;
 
@@ -14,6 +15,7 @@ window.onload = init;
 function init() {
   Canvas.init();
   Events.createListeners(Canvas.canvas);
+  Scene.makeTexBtns();
 
   loop();
 }

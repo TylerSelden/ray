@@ -11,6 +11,9 @@ window.Global = {
     y: 0
   },
   Scene: {
-    blockSize: 32
+    blockSize: 32,
+    data: [],
+    w: 0,
+    h: 0
   }
 }
