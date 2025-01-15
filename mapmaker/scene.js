@@ -45,26 +45,35 @@ function makeTexBtns() {
     e.style.borderColor = borderColor(color);
     e.style.color = borderColor(color);
 
-    e.onclick = () => { Global.select(1, i) };
+    e.onclick = () => { Global.select(i) };
 
     document.getElementById("rightToolbar").appendChild(e);
   }
   Global.select();
 }
 
-function place(mapX, mapY) {
+Global.selected = ' ';
+
+function blockAt(mx, my) {
+  if (!Global.Scene.data[my]) return undefined;
+  return Global.Scene.data[my][mx];
 }
 
-Global.selected = ["up", ' '];
+Global.place = (dir) => {
+  let block = blockAt(Global.mx, Global.my) || Array(4).fill(' ');
+  if (block.split) block = block.split('');
 
-Global.select = (type, btn) => {
-  if (btn) Global.selected[type] = btn;
+  block[dir] = Global.selected;
+
+  if (!Global.Scene.data[Global.my]) Global.Scene.data[Global.my] = [];
+  Global.Scene.data[Global.my][Global.mx] = block.join('');
+}
+
+Global.select = (btn) => {
+  Global.selected = btn || ' ';
 
   Array.from(document.querySelectorAll(".selected")).forEach((e) => e.classList.remove("selected"));
-
-  for (let i of Global.selected) {
-    document.getElementById(i).classList.add("selected");
-  }
+  document.getElementById(Global.selected).classList.add("selected");
 }
 
 export { makeTexBtns }
