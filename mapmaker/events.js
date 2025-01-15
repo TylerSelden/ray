@@ -51,7 +51,6 @@ function createListeners(canvas) {
   window.addEventListener("mouseup", (evt) => { mouseDown = false; });
   canvas.addEventListener("wheel", (evt) => {
     zoom(Global.zoom - evt.deltaY / 500);
-    console.log(evt.deltaY / 500);
 
     setTrueVals();
   });

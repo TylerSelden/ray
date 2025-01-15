@@ -9,20 +9,13 @@ window.onerror = function(msg, url, linenumber) {
   return true;
 }
 
-window.onload = function() {
-  init();
-  loop();
-}
-
-
-let current = {
-  lastTouch: null
-}
-
+window.onload = init;
 
 function init() {
   Canvas.init();
   Events.createListeners(Canvas.canvas);
+
+  loop();
 }
 
 function loop() {
